@@ -30,7 +30,7 @@ require_once('autoloader.php');
 
 
 // Teste de la méthode create
-$data = [1,2,"tondeuse","maximum 250m², moteur électrique", 185, "tondeuse.jpg"];
+// $data = [1,2,"tondeuse","maximum 250m², moteur électrique", 185, "tondeuse.jpg"];
 // AnnoncesModel::create($data);
 
 // Teste de la méthode Update()
@@ -39,5 +39,5 @@ AnnoncesModel::update($data);
 
 // Teste de la méthode delete($id)
 
-$id = [4];
-AnnoncesModel::delete($id);
+// $id = [4];
+// AnnoncesModel::delete($id);
