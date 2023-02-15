@@ -5,23 +5,25 @@ namespace Models;
 use PDO;
 use App\Db;
 
-class AnnoncesModel extends Db{
+class AnnoncesModel extends Db
+{
 
     ///////////////////////// Création du CRUD //////////////////////////////////////
 
     ///////////////// READ ////////////////////////// 
 
     // Méthode pour trouver toutes les annonces
-    public static function findAll($order = null, string $limit = null){
+    public static function findAll($order = null, string $limit = null)
+    {
         // Méthode longue
         // if($order === null){
-        //     $request = "SELECT * ,annonces.title AS title, categories.title AS NameCat FROM annonces INNER JOIN categories ON annonces.idCategorie = categories.idCategorie" . $limit;
+        //     $request = "SELECT * ,annonces.title AS title, categories.title AS nameCat FROM annonces INNER JOIN categories ON annonces.idCategorie = categories.idCategorie" . $limit;
         // }else{
-        //     $request = "SELECT * ,annonces.title AS title, categories.title AS NameCat FROM annonces INNER JOIN categories ON annonces.idCategorie = categories.idCategorie ORDER BY " . $order . " " .$limit;
+        //     $request = "SELECT * ,annonces.title AS title, categories.title AS nameCat FROM annonces INNER JOIN categories ON annonces.idCategorie = categories.idCategorie ORDER BY " . $order . " " .$limit;
         // }
 
         // Même chose mais plus propre
-        $request = "SELECT * ,annonces.title AS title, categories.title AS NameCat FROM annonces INNER JOIN categories ON annonces.idCategorie = categories.idCategorie";
+        $request = "SELECT * ,annonces.title AS title, categories.title AS nameCat FROM annonces INNER JOIN categories ON annonces.idCategorie = categories.idCategorie";
         // if($order !==null){
         //     $request .= " ORDER BY " . $order;
         // }
@@ -39,7 +41,8 @@ class AnnoncesModel extends Db{
     }
 
     // Méthode pour trouver une annonce par son id
-    public static function findById($id){
+    public static function findById($id)
+    {
         $request = "SELECT * FROM annonces WHERE idAnnonce = ?";
         $response = self::getDb()->prepare($request);
         $response->execute($id);
@@ -48,7 +51,8 @@ class AnnoncesModel extends Db{
     }
 
     // Méthode pour trouver toutes lesannonces d'un user
-    public static function findByUser($idUser){
+    public static function findByUser($idUser)
+    {
         $request = "SELECT * FROM annonces WHERE idUser = ?";
         $response = self::getDb()->prepare($request);
         $response->execute($idUser);
@@ -57,8 +61,10 @@ class AnnoncesModel extends Db{
     }
 
     // Méthode pour trouver les Annoces d'une catégorie
-    public static function findByIdCat($idCategorie){
-        $request = "SELECT * FROM annonces WHERE idCategorie = ?";
+    public static function findByIdCat($idCategorie, $order = null)
+    {
+        $request = "SELECT *,annonces.title AS title, categories.title AS nameCat FROM annonces INNER JOIN categories ON annonces.idCategorie = categories.idCategorie WHERE annonces.idCategorie = ?";
+        $order ? $request .= " ORDER BY " . $order : null;
         $response = self::getDb()->prepare($request);
         $response->execute($idCategorie);
 
@@ -68,7 +74,8 @@ class AnnoncesModel extends Db{
     /////////////////////// CREATE /////////////////////////////////
 
     // Méthode de création d'une annonce
-    public static function create(array $data){
+    public static function create(array $data)
+    {
         // $data est un tableau qui contient les valeurs à inserer en BDD
         // "INSERT INTO annonces (idUser, idCategorie, title, description, price, image) VALUES (1, 2, tondeuse, max 250 m², 150, tondeuse.jpg)
         $request = "INSERT INTO annonces (idUser, idCategorie, title, description, price, image) VALUES (?, ?, ?, ?, ?, ?)";
@@ -76,7 +83,7 @@ class AnnoncesModel extends Db{
         $response->execute($data);
     }
 
-     /////////////////////// UPDATE /////////////////////////////////
+    /////////////////////// UPDATE /////////////////////////////////
     /**
      * Méthode de mise à jour d'une annonce
      * @param array $data[
@@ -90,18 +97,20 @@ class AnnoncesModel extends Db{
      * 
      * 
      */
-    public static function update($data){
+    public static function update($data)
+    {
         $request = "UPDATE annonces SET idCategorie = ?, title = ?, description = ? , price = ?, image = ? WHERE idAnnonce = ?";
         $response = self::getDb()->prepare($request);
 
         return $response->execute($data);
     }
 
-     /////////////////////// DELETE /////////////////////////////////
-     public static function delete(array $id){
+    /////////////////////// DELETE /////////////////////////////////
+    public static function delete(array $id)
+    {
         $request = "DELETE FROM annonces WHERE idAnnonce = ?";
         $response = self::getDb()->prepare($request);
 
         return $response->execute($id);
-     }
+    }
 }

@@ -2,6 +2,7 @@
 namespace Controllers;
 
 use Models\AnnoncesModel;
+use Models\CategoriesModel;
 
 class AnnoncesController extends Controller {
     // Méthode pour afficher les dernières annonces misent en ligne sur la page d'accueil
@@ -30,6 +31,23 @@ class AnnoncesController extends Controller {
             'title' => 'Détail de l\'annonce',
             'annonce' => $annonce,
             'msg' => $msg
+        ]);
+    }
+
+    // Méthode pour afficher toutes les annonces
+    public static function annonces($order =null, $categorie =null){
+        if ($categorie == null) {
+            $annonces = AnnoncesModel::findAll($order);
+        }else{
+            $annonces = AnnoncesModel::findByIdCat([$categorie], $order);
+        }
+
+        // Récupération des catégories
+        $categories = CategoriesModel::findAll();
+        self::render('annonces/annonces', [
+            'title' => "Les annonces de mon bon coin",
+            'annonces' => $annonces,
+            'categories' => $categories
         ]);
     }
 }
