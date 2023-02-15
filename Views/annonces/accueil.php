@@ -1,5 +1,15 @@
 <?php
 // var_dump($annonces);
+if (isset($_SESSION['message'])){
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']);
+
+    echo '<div class="alert alert-dismissible alert-info">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <h4 class="alert-heading">Félicitation !</h4>
+    <p class="mb-0">' . $message . '</p>
+</div>';
+}
 ?>
 
 <h2 class="mt-4"><?= $sousTitre ?></h2>
