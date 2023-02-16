@@ -19,13 +19,13 @@ class Controller{
         require_once ROOT . '/Views/layout.php';
     }
 
+    // Méthode pour sécuriser les saisies formulaire
+
     public static function security() {
         if(!empty($_POST)){
             foreach ($_POST as $key => $value) {
                 $_POST[$key] = htmlspecialchars(trim($value));
-                // echo $_POST[$key];
             }
-            // die();
         }
     }
 
