@@ -1,9 +1,10 @@
 <?php
 namespace App;
 
-use Controllers\AnnoncesController;
 use Controllers\Controller;
 use Controllers\UsersController;
+use Controllers\PanierController;
+use Controllers\AnnoncesController;
 
 class Routeur{
     public function app(){
@@ -75,7 +76,31 @@ class Routeur{
                 }
                 break;
             case 'panier':
-                echo "page panier";
+                // echo "page panier";
+                // trois operations possible: Ajouter/Supprimer/Voir
+                switch ($_GET['operation']) {
+                    case 'ajouter':
+                        if (isset($_GET['id']) &&
+                            isset($_GET['title']) &&
+                            isset($_GET['price']) &&
+                            isset($_GET['photo'])  ) {
+                            
+                            PanierController::ajouter($_GET['id'],$_GET['title'],$_GET['price'],$_GET['photo']);
+                        }
+                        break;
+                    case 'supprimer':
+                        if(isset($_GET['id'])){
+                            $id = $_GET['id'];
+                            PanierController::supprimer($id);
+                        }
+                        break;
+                    case 'voir':
+                        PanierController::voir();
+                        break;
+                    default:
+                        header('Location: '. SITEBASE);
+                        break;
+                }
                 break;
             case 'inscription':
                 // echo "page d'inscription";

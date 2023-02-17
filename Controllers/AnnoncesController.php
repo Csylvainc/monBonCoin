@@ -3,6 +3,7 @@ namespace Controllers;
 
 use Models\AnnoncesModel;
 use Models\CategoriesModel;
+use Models\UsersModel;
 
 class AnnoncesController extends Controller {
     // Méthode pour afficher les dernières annonces misent en ligne sur la page d'accueil
@@ -21,6 +22,8 @@ class AnnoncesController extends Controller {
     // Méthode pour afficher le détail d'une annonce
     public static function detail(int $id){
         $annonce = AnnoncesModel::findById([$id]);
+        $id = $annonce['idUser'];
+        $user = UsersModel::findById([$id]);
         $msg ='';
         if (!$annonce) {
             $msg = "Cette annonce n'existe pas";
@@ -30,7 +33,8 @@ class AnnoncesController extends Controller {
         self::render('annonces/detail', [
             'title' => 'Détail de l\'annonce',
             'annonce' => $annonce,
-            'msg' => $msg
+            'msg' => $msg,
+            'user' => $user
         ]);
     }
 
