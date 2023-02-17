@@ -160,4 +160,21 @@ class AnnoncesController extends Controller {
             'errMsg' => $errMsg
         ]);
     }
+
+    // Méthode de suppression d'annonce
+    public static function annonceSupp($id){
+        AnnoncesModel::delete($id);
+        header('Location: profil');
+        $_SESSION['messages'] = 'annonce supprimée';
+    }
+
+
+    // Méthode de confirmation
+    public static function annonceConfirm($id){
+
+        self::render('annonces/confirmSupp', [
+            'title' => 'Confirmation desuppression de l\'annonce',
+            'id' => $id
+        ]);
+    }
 }
